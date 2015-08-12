@@ -41,4 +41,19 @@ i.e. NdriveFUSE ~/mountpoint
 ## License
 GPL version 2.0
 
+## Copyright
+Copyright 2015 Sukbeom Kim
+This file is part of NdriveFuse (https://github.com/seokbeomKim/NdriveFUSE/)
+NdriveFUSE is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+NdriveFUSE is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with NdriveFUSE.  If not, see <http://www.gnu.org/licenses/>.
+
+
 If you have any issues or need help, please mail to chaoxifer@gmail.com
