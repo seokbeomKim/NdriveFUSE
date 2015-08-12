@@ -28,7 +28,7 @@ $ NdriveFUSE_Gen
    it will generate encrypted key about your naver account information
    
    **NOTICE** Encryption has not purpose on security. The main reason of
-   encryption keep your account information from being shown easily by 
+   encryption is keeping your account information from being shown easily by 
    other users.
 
 ## Usage
