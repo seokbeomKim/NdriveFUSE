@@ -1,0 +1,5 @@
+Dependencies:
+pynotify
+OSD (On Screen Display)
+ghost.py
+fusepy
