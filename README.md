@@ -7,7 +7,7 @@ FUSE wrapper for Naver NDrive for LINUX
 This project use python wrapper for NAVER Ndrive project (https://github.com/carpedm20/ndrive) by carpedm20.
 
 ## Dependencies
-- pynotify
+- pynotify (or python2-notify)
 - OSD (On Screen Display): Canonical's on-screen-display notification agent
 - ghost.py
 - fusepy
