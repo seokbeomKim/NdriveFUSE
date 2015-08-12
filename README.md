@@ -1,5 +1,7 @@
 # NdriveFUSE
-FUSE wrapper for Naver NDrive
+FUSE wrapper for Naver NDrive for LINUX
+
+**리눅스용 네이버 N드라이브**
 
 ## Notice
 This project use python wrapper for NAVER Ndrive project (https://github.com/carpedm20/ndrive) by carpedm20.
