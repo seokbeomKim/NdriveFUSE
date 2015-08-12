@@ -43,7 +43,7 @@ GPL version 2.0
 
 ## Copyright
 Copyright 2015 Sukbeom Kim
-This file is part of NdriveFuse (https://github.com/seokbeomKim/NdriveFUSE/)
+
 NdriveFUSE is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
