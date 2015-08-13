@@ -97,7 +97,6 @@ def checkItemFromOtherList(item, list):
 def checkFileFromDirectoryList(filepath, dirlist):
     for dirpath in dirlist:
         dirpath = re.sub('\ ','', dirpath)
-        print "**checkFileFromDirectoryList** filepath = "+filepath+" is compared to "+dirpath[:len(filepath)]
         if filepath[:len(dirpath)] == dirpath:
             return True
     return False
