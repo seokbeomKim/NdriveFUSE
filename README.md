@@ -20,6 +20,7 @@ This project use python wrapper for NAVER Ndrive project (https://github.com/car
 - flask (ubuntu: python-flask)
 - OSD (On Screen Display): Canonical's on-screen-display notification agent
 - ghost.py (http://ghostpy.readthedocs.org/en/latest/)
+-- to install ghost.py, pyside should be installed (ubuntu: python-pyside)
 - fusepy
 
 ## Installation
