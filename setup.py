@@ -3,7 +3,7 @@ from setuptools.command.install import install
 from setuptools import Command
 from distutils.sysconfig import get_python_lib
 import os
-
+import site
 
 
 install_requires=[
@@ -20,7 +20,8 @@ class Installer(install):
     def run(self):
         install.run(self)
         print "============== Create binary file ====================="
-        path = os.path.join(get_python_lib(), "NdriveFUSE")
+#        path = os.path.join(get_python_lib(), "NdriveFUSE")
+        path = site.getsitepackages()[0]
         cmd = "echo '#!/bin/bash\n \
         python2 "+ os.path.join(path, "NDriveFUSE.py") + " $@' > /usr/bin/NdriveFUSE"
         os.system(cmd)
