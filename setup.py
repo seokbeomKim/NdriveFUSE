@@ -21,7 +21,7 @@ class Installer(install):
         install.run(self)
         print "============== Create binary file ====================="
 #        path = os.path.join(get_python_lib(), "NdriveFUSE")
-        path = site.getsitepackages()[0]
+        path = os.path.join(site.getsitepackages()[0], "NdriveFUSE")
         cmd = "echo '#!/bin/bash\n \
         python2 "+ os.path.join(path, "NDriveFUSE.py") + " $@' > /usr/bin/NdriveFUSE"
         os.system(cmd)
