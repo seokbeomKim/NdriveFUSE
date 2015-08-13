@@ -41,6 +41,21 @@ NdriveFUSE $(MOUNT_POINT)
 i.e. NdriveFUSE ~/mountpoint
 ```
 
+## Configuration
+### Synchronization
+If you customize synchronization with following setting
+```
+# NDrive configuration
+# Exclude cache
+cache_exclude_directories = "/exclude_dir, /exclude_dir2"
+cache_exclude_files = "/test/exclude_file1, /test/exclude_file2 /test/form_nfrm.nfrm"
+cache_exclude_filetype = "a, jpg, zip, nppt, nxls"
+cache_exclude_filesize = "4096"
+
+# Default cache directory is "~/.ndrive".
+cache_directory = "/home/chaoxifer/.ndrive"
+```
+
 ## License
 GPL version 2.0
 
