@@ -58,7 +58,6 @@ import time
 from datetime import date
 import getpass
 import pdb
-import pynotify
 from clint.textui import colored
 from ndrive import Ndrive
 from fuse import FUSE, FuseOSError, Operations, LoggingMixIn
@@ -111,32 +110,18 @@ class NDriveFUSE(Operations):
         
         self.cache = []
 
-        # Notification
-        pynotify.init("NDriveFUSE")
-        self.notice = pynotify.Notification("NDrive", "Message")
-        
         # Check synchronization
         if self.checkSyncAtFirst() == False:
             # Do sync
-            self.showNotification("Syncing...");            
             self.doSync("/")
         else:
             fp = open(os.path.join(self.confMgr.cache_directory, ".sync_completed"))
             self.timestamp = fp.readlines()
 
-        self.showNotification("Sync is completed")
-        
         # init fsstat information
         # This function will initialize drive information
         # (i.e.available, total space)
         self.initStat()
-
-    """
-    showNotification(message)
-    """
-    def showNotification(self, message, title="NDrive"):
-        self.notice.update(title, message)
-        self.notice.show()
 
     """
     setConfigManager(manager)
