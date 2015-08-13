@@ -4,20 +4,27 @@ FUSE wrapper for Naver NDrive for LINUX
 **리눅스용 네이버 N드라이브**
 
 ## TODO
-주요 배포판별 테스트
-- Arch Linux 완료
+Test on {Arch, Gentoo, Ubuntu,...}
+- Arch Linux TESTED
 
 ![](https://github.com/seokbeomKim/NdriveFUSE/blob/gh-pages/screenshot_001.png)
 ## Notice
 This project use python wrapper for NAVER Ndrive project (https://github.com/carpedm20/ndrive) by carpedm20.
 
 ## Dependencies
+- setuptools (ubuntu: python-setuptools)
+- clint (ubuntu: python-clint)
+- simplejson (ubuntu: python-simplejson)
+- magic (ubuntu: python-magic)
 - pynotify (or python2-notify)
+- flask (ubuntu: python-flask)
 - OSD (On Screen Display): Canonical's on-screen-display notification agent
-- ghost.py
+- ghost.py (http://ghostpy.readthedocs.org/en/latest/)
 - fusepy
 
-## Installation 
+## Installation
+**Make sure that your system satisfy the dependencies above.**
+
 Install NdriveFUSE
 ```
 $ python2 setup.py install
