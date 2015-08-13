@@ -187,7 +187,7 @@ class NDriveFUSE(Operations):
                             break
 
                     except:
-                        print "FAIL to split path with item_path = " + item['href'] + ", directory = " + directory
+#                        print "FAIL to split path with item_path = " + item['href'] + ", directory = " + directory
                         continue
                     
                                               
@@ -199,8 +199,6 @@ class NDriveFUSE(Operations):
                                               os.path.splitext(item['hilightfilename'])[1]),
                                        self.confMgr.cache_exclude_filetype) or \
                 int(item['getcontentlength']) / 1024 > int(self.confMgr.cache_exclude_filesize):
-                    print "remove idx ("+str(idx)+"): " + allFiles[idx]['href']
-                    print "ext = "+os.path.splitext(item['hilightfilename'])[1]
                     flag = True
 
             if flag == False:
@@ -222,7 +220,7 @@ class NDriveFUSE(Operations):
                     dpath = self.confMgr.cache_directory + file['href']
                     os.mkdir(dpath, 0755)
                 except:
-                    print "Skip to download file ("+fpath+")"
+                    pass 
             # file
             else:
                 try:
@@ -235,10 +233,11 @@ class NDriveFUSE(Operations):
                         if compareTimeStamp(file['getlastmodified'], compareStr):
                             self.ndrive.downloadFile(file['href'], fpath)
                     else:
-                        self.ndrive.downloadFile(file['href'], fpath)                        
+                        self.ndrive.downloadFile(file['href'], fpath)
+
                 except:
-                    print "Skip to downad file ("+fpath+"). It could be excluded from configuration or already exists."
-                    
+                    pass
+
         # 5. Create mark file in cache directory
         markfile = os.path.join(self.confMgr.cache_directory + "/.sync_completed")
 
@@ -373,10 +372,10 @@ class NDriveFUSE(Operations):
         
         if not ts1 < ts2:
             # need synchronization
-            print "Need to sync."
+#            print "Need to sync."
             return True
         else:
-            print "Doesn't need to sync."
+#            print "Doesn't need to sync."
             return False
     
     def readlink(self, path):
@@ -460,7 +459,7 @@ class NDriveFUSE(Operations):
         return 0
 
     def rename(self, old, new):
-        self.ndrive.uploadFile(getFullPath(old), new, True)
+        self.ndrive.uploadFile(self.getFullPath(old), new, True)
         self.ndrive.delete(old)
         return os.rename(self.getFullPath(old), self.getFullPath(new))
 
@@ -508,20 +507,6 @@ class NDriveFUSE(Operations):
         except:
             self.ndrive.uploadFile(self.getFullPath(path), path, True)
 
-        """
-        extension = os.path.splitext(path)[1]
-        if extension == ".ndoc" or \
-           extension == ".nppt" or \
-           extension == ".nfrm" or \
-           extension == ".nxls":
-            r = self.ndrive.openDocs(path)
-            if not r is None:
-                print r
-                url = "http://word1.office.naver.com:80/word/editor.cmd?docId=" + r
-                os.system(self.confMgr.default_browser + " " + url)
-
-                return 0
-        """
         return os.fsync(fh)
 
     def release(self, path, fh):
