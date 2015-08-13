@@ -1,8 +1,8 @@
 # NDrive configuration
 
 # Exclude cache
-# cache_exclude_directories = "/exclude_dir, /exclude_dir2"
-# cache_exclude_files = "/test/exclude_file1, /test/exclude_file2 /test/form_nfrm.nfrm"
+cache_exclude_directories = "/exclude_dir, /exclude_dir2"
+cache_exclude_files = "/test/exclude_file1, /test/exclude_file2 /test/form_nfrm.nfrm"
 cache_exclude_filetype = "a, jpg, zip, nppt, nxls"
 cache_exclude_filesize = "4096"
 
