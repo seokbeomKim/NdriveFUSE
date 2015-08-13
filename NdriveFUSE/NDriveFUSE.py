@@ -69,6 +69,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "ndrive"))
 import fuse
 import confgen
 import ndrive
+import webbrowser
 import stat
 from helper import *
 
@@ -236,8 +237,8 @@ class NDriveFUSE(Operations):
                     else:
                         self.ndrive.downloadFile(file['href'], fpath)                        
                 except:
-                    print "Failed to downad file ("+fpath+"). It could be excluded from configuration."
-
+                    print "Skip to downad file ("+fpath+"). It could be excluded from configuration or already exists."
+                    
         # 5. Create mark file in cache directory
         markfile = os.path.join(self.confMgr.cache_directory + "/.sync_completed")
 
@@ -485,7 +486,7 @@ class NDriveFUSE(Operations):
     def read(self, path, length, offset, fh):
         os.lseek(fh, offset, os.SEEK_SET)
         return os.read(fh, length)
-
+        
     def write(self, path, buf, offset, fh):
         os.lseek(fh, offset, os.SEEK_SET)
         return os.write(fh, buf)
@@ -497,9 +498,6 @@ class NDriveFUSE(Operations):
             f.truncate(length)
 
     def flush(self, path, fh):
-        print "**flush** path = "
-        print path
-
         try:
             property = self.ndrive.getProperty(path)
             mtime = os.path.getmtime(self.getFullPath(path))
@@ -510,6 +508,20 @@ class NDriveFUSE(Operations):
         except:
             self.ndrive.uploadFile(self.getFullPath(path), path, True)
 
+        """
+        extension = os.path.splitext(path)[1]
+        if extension == ".ndoc" or \
+           extension == ".nppt" or \
+           extension == ".nfrm" or \
+           extension == ".nxls":
+            r = self.ndrive.openDocs(path)
+            if not r is None:
+                print r
+                url = "http://word1.office.naver.com:80/word/editor.cmd?docId=" + r
+                os.system(self.confMgr.default_browser + " " + url)
+
+                return 0
+        """
         return os.fsync(fh)
 
     def release(self, path, fh):

@@ -91,7 +91,6 @@ def checkItemFromOtherList(item, list):
     for compareTo in list:
         compareTo = re.sub('\ ','', compareTo)
         if compareTo == item:
-            print "item("+item+") found from the list"
             return True
     return False
 
@@ -100,7 +99,6 @@ def checkFileFromDirectoryList(filepath, dirlist):
         dirpath = re.sub('\ ','', dirpath)
         print "**checkFileFromDirectoryList** filepath = "+filepath+" is compared to "+dirpath[:len(filepath)]
         if filepath[:len(dirpath)] == dirpath:
-            print "**checkFileFromDirectoryList found matching : "+filepath[:len(dirpath)]+ " with "+dirpath
             return True
     return False
 
