@@ -43,7 +43,7 @@ i.e. NdriveFUSE ~/mountpoint
 
 ## Configuration
 ### Synchronization
-If you customize synchronization with following setting
+you can customize synchronization with following setting
 ```
 # NDrive configuration
 # Exclude cache
