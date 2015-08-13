@@ -3,8 +3,9 @@ FUSE wrapper for Naver NDrive for LINUX
 
 **리눅스용 네이버 N드라이브**
 
-## TESTED
-TESTED in Arch Linux
+## TODO
+주요 배포판별 테스트
+- Arch Linux 완료
 
 ![](https://github.com/seokbeomKim/NdriveFUSE/blob/gh-pages/screenshot_001.png)
 ## Notice
