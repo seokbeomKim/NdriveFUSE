@@ -3,10 +3,6 @@ FUSE wrapper for Naver NDrive for LINUX
 
 **리눅스용 네이버 N드라이브**
 
-## TODO
-Test on {Arch, Gentoo, Ubuntu,...}
-- Arch Linux TESTED
-
 ![](https://github.com/seokbeomKim/NdriveFUSE/blob/gh-pages/screenshot_001.png)
 ## Notice
 This project use python wrapper for NAVER Ndrive project (https://github.com/carpedm20/ndrive) by carpedm20.
