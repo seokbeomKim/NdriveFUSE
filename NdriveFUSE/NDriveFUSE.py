@@ -391,7 +391,6 @@ class NDriveFUSE(Operations):
 
     def rmdir(self, path):
         full_path = self.getFullPath(path)
-        print "path = " + path
         self.ndrive.delete(path + "/")
         return os.rmdir(full_path)
 
@@ -401,6 +400,8 @@ class NDriveFUSE(Operations):
 
     def statfs(self, path):
         full_path = self.getFullPath(path)
+        full_path = unicode(full_path).encode("utf-8")
+        
         stv = os.statvfs(full_path)
         rValue = dict((key, getattr(stv, key)) for key in ('f_bavail', 'f_bfree',
             'f_blocks', 'f_bsize', 'f_favail', 'f_ffree', 'f_files', 'f_flag',
@@ -452,7 +453,6 @@ class NDriveFUSE(Operations):
         return 0
 
     def utimens(self, path, times=None):
-        print "**utimens**"
         return os.utime(self.getFullPath(path), times)
 
     # File methods
@@ -476,7 +476,6 @@ class NDriveFUSE(Operations):
         return os.write(fh, buf)
 
     def truncate(self, path, length, fh=None):
-        print "**truncate** file is changed."
         full_path = self.getFullPath(path)
         with open(full_path, 'r+') as f:
             f.truncate(length)
@@ -498,7 +497,6 @@ class NDriveFUSE(Operations):
         return os.close(fh)
 
     def fsync(self, path, fdatasync, fh):
-        print "**fsync**"
         return self.flush(path, fh)
 
 def main(mountpoint):
