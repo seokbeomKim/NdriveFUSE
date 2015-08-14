@@ -508,6 +508,7 @@ class NDriveFUSE(Operations):
     """
     def recoverSession(self):
         print "Refresh session..."
+        self.ndrive.getDiskSpace()
         time.sleep(1)
 
     def looper(self):
