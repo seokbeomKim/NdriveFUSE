@@ -71,6 +71,7 @@ import ndrive
 import webbrowser
 import stat
 from helper import *
+import threading
 
 class NDriveFUSE(Operations):
     """
@@ -122,6 +123,14 @@ class NDriveFUSE(Operations):
         # This function will initialize drive information
         # (i.e.available, total space)
         self.initStat()
+
+        # Thread to keep session
+        t = threading.Thread(target=self.recoverSession())
+        try:
+            t.start()
+        except (KeyboardInterrupt, SystemExit):
+            t.clear()
+            sys.exit()
 
     """
     setConfigManager(manager)
@@ -498,6 +507,20 @@ class NDriveFUSE(Operations):
 
     def fsync(self, path, fdatasync, fh):
         return self.flush(path, fh)
+
+    """
+    recoverSession:
+
+    Keep user's session from being timeout
+    """
+    def recoverSession(self):
+        while True:
+            self.ndrive.getDiskSpace()
+            try:
+                time.sleep(120)
+            except:
+                sys.exit()
+            
 
 def main(mountpoint):
     confMgr = confgen.ConfGenerator()
