@@ -531,7 +531,7 @@ def main(mountpoint):
     obj = NDriveFUSE(mountpoint, account[0], account[1], confMgr)
 
     # Run FUSE
-    FUSE(obj, mountpoint, nothreads=True, foreground=True)
+    FUSE(obj, mountpoint, nothreads=True, foreground=False)
     print "Try to exit..."
     obj.recover.cancel()
     sys.exit(0)
