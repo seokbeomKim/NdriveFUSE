@@ -123,18 +123,7 @@ class NDriveFUSE(Operations):
         # This function will initialize drive information
         # (i.e.available, total space)
         self.initStat()
-
-        # Thread to keep session
-        self.timer_list = []
-        timer = threading.Timer(120, self.recoverSession)
-
-        self.timer_list.append(timer)
-        try :
-            timer.start()
-        except :
-            print "Try to exit"
-            timer.cancel()
-            sys.exit(0)
+        self.looper()
 
     """
     setConfigManager(manager)
@@ -518,23 +507,20 @@ class NDriveFUSE(Operations):
     Keep user's session from being timeout
     """
     def recoverSession(self):
-        self.timer_list[0].cancel()
-        del self.timer_list[:]
-        
         print "Refresh session..."
-        try:        
-            self.ndrive.getDiskSpace()
-        
-            if not len(self.timer_list) == 0:
-                timer = threading.Timer(120, self.recoverSession)
-                self.timer_list.append(timer)
-                timer.start()
-                
-        except (KeyboardInterrupt, SystemExit):
-            print "Try to exit..."
-            timer_list[0].cancel()
-            sys.exit()
+        time.sleep(1)
 
+    def looper(self):
+        # Thread to keep session
+        try:
+            self.recover = threading.Timer(120.0, self.looper)
+            self.recover.start()
+        except (KeyboardInterrupt, SystemExit):
+            print "Exit the program."
+            sys.exit()
+            
+        self.recoverSession()
+    
 def main(mountpoint):
     confMgr = confgen.ConfGenerator()
     confMgr.readConfFile()
@@ -545,6 +531,9 @@ def main(mountpoint):
 
     # Run FUSE
     FUSE(obj, mountpoint, nothreads=True, foreground=True)
+    print "Try to exit..."
+    obj.recover.cancel()
+    sys.exit(0)
     
 if __name__ == '__main__':
     main(sys.argv[1])
