@@ -125,12 +125,16 @@ class NDriveFUSE(Operations):
         self.initStat()
 
         # Thread to keep session
-        t = threading.Thread(target=self.recoverSession())
-        try:
-            t.start()
-        except (KeyboardInterrupt, SystemExit):
-            t.clear()
-            sys.exit()
+        self.timer_list = []
+        timer = threading.Timer(120, self.recoverSession)
+
+        self.timer_list.append(timer)
+        try :
+            timer.start()
+        except :
+            print "Try to exit"
+            timer.cancel()
+            sys.exit(0)
 
     """
     setConfigManager(manager)
@@ -514,13 +518,22 @@ class NDriveFUSE(Operations):
     Keep user's session from being timeout
     """
     def recoverSession(self):
-        while True:
+        self.timer_list[0].cancel()
+        del self.timer_list[:]
+        
+        print "Refresh session..."
+        try:        
             self.ndrive.getDiskSpace()
-            try:
-                time.sleep(120)
-            except:
-                sys.exit()
-            
+        
+            if not len(self.timer_list) == 0:
+                timer = threading.Timer(120, self.recoverSession)
+                self.timer_list.append(timer)
+                timer.start()
+                
+        except (KeyboardInterrupt, SystemExit):
+            print "Try to exit..."
+            timer_list[0].cancel()
+            sys.exit()
 
 def main(mountpoint):
     confMgr = confgen.ConfGenerator()
