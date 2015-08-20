@@ -12,7 +12,7 @@ This project use python wrapper for NAVER Ndrive project (https://github.com/car
 - clint (ubuntu: python-clint)
 - simplejson (ubuntu: python-simplejson)
 - magic (ubuntu: python-magic)
-- pynotify (or python2-notify)
+- pynotify (or python-notify2)
 - flask (ubuntu: python-flask)
 - OSD (On Screen Display): Canonical's on-screen-display notification agent
 - ghost.py (http://ghostpy.readthedocs.org/en/latest/)
