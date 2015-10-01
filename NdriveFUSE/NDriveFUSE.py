@@ -441,6 +441,14 @@ class NDriveFUSE(Operations):
 
     def unlink(self, path):
         self.ndrive.delete(path)
+        """
+        CloudShare 파일 검사
+        """
+        if "CloudShare" in path:
+            logfile = os.getenv("HOME") + "/.cslog"
+            cmd = "sed '/"+self.getFullPath(path).replace("/", "\/")+"/d' " + logfile + " > "+logfile
+            os.system(cmd)
+            
         return os.unlink(self.getFullPath(path))        
 
     def symlink(self, name, target):

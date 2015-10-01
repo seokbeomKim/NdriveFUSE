@@ -304,6 +304,20 @@ class Ndrive(object):
         if s is True:
             self.put(file_obj, full_path, overwrite)
 
+        """
+        file_obj를 검사하여 CloudShare 폴더 밑에 있는 경우 로그파일에 공유링크를 저장한다.
+        """
+        if "CloudShare" in file_obj:
+            logfile = os.getenv("HOME") + "/.cslog"
+            print "logfile = " + logfile
+
+            cmd = "sed '/"+full_path.replace("/", "\/")+"/d' " + logfile + " > "+logfile
+            os.system(cmd)
+            
+            f = open(logfile, 'a+')
+            f.write(file_obj + ": " + self.getFileLink(full_path) + "\n")
+        
+
     def getRecentUpdatedFileList(self):
         """
         Get list of recently updated files
