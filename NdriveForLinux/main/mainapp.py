@@ -33,7 +33,7 @@ from helper import Helper
 """
 DEFAULT VALUES
 """
-WIDTH = 500
+WIDTH = 530
 HEIGHT = 600
 
 MOUNTPOINT = os.path.join(os.getenv('HOME') + "/ndrive")
