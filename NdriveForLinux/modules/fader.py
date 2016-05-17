@@ -1,0 +1,25 @@
+import wx
+
+class Fader(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, title='Test')
+        self.amount = 5
+        self.delta = 5
+        panel = wx.Panel(self, wx.ID_ANY)
+ 
+        self.SetTransparent(self.amount)
+ 
+        ## ------- Fader Timer -------- ##
+        self.timer = wx.Timer(self, wx.ID_ANY)
+        self.timer.Start(1)
+        self.Bind(wx.EVT_TIMER, self.AlphaCycle)
+        ## ---------------------------- ##
+ 
+    def AlphaCycle(self, evt):
+        self.amount += self.delta
+        if self.amount >= 255:
+            self.delta = -self.delta
+            self.amount = 255
+        if self.amount <= 0:
+            self.amount = 0
+        self.SetTransparent(self.amount)

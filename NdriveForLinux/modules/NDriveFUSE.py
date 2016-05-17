@@ -3,11 +3,11 @@
 from __future__ import with_statement
 
 """
-Copyright 2015 Sukbeom Kim
+Copyright 2015-2016 Sukbeom Kim
 
 This file is part of NdriveFuse (https://github.com/seokbeomKim/NdriveFUSE/)
 
-NdriveFUSE is free software: you can redistribute it and/or modify
+NdriveForLinux is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 any later version.
@@ -62,8 +62,7 @@ from clint.textui import colored
 from ndrive import Ndrive
 from fuse import FUSE, FuseOSError, Operations, LoggingMixIn
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "modules"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "ndrive"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../ndrive"))
 
 import fuse
 import confgen

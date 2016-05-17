@@ -21,9 +21,9 @@ class Installer(install):
         install.run(self)
         print "============== Create binary file ====================="
 #        path = os.path.join(get_python_lib(), "NdriveFUSE")
-        path = os.path.join(site.getsitepackages()[0], "NdriveFUSE")
+        path = os.path.join(site.getsitepackages()[0], "NdriveForLinux")
         cmd = "echo '#!/bin/bash\n \
-        python2 "+ os.path.join(path, "NDriveFUSE.py") + " $@' > /usr/bin/NdriveFUSE"
+        python2 "+ os.path.join(path, "NdriveForLinux.py") + " $@' > /usr/bin/NdriveForLinux"
         os.system(cmd)
         cmd = "echo '#!/bin/bash\n \
         python2 "+ os.path.join(path, "generateConfigFile.py") + "' > /usr/bin/NdriveFUSE_Gen"
@@ -47,16 +47,16 @@ class Clean(Command):
         os.system(cmd)
 
 setup(
-    name='NdriveFUSE',
-    packages=['NdriveFUSE', 'NdriveFUSE/modules', 'NdriveFUSE/ndrive'],
-    version='0.0.1',
-    description='NAVER Ndrive FUSE',
+    name='NdriveForLinux',
+    packages=['NdriveForLinux', 'NdriveForLinux/modules', 'NdriveForLinux/ndrive'],
+    version='0.0.2',
+    description='NAVER Ndrive client for Linux',
     license='GPL v2.0 License',
     author='Sukbeom Kim',
-    author_email='chaoxifer@gmail.com',
+    author_email='sukbeom.kim@gmail.com',
     url='https://github.com/seokbeomKim/NdriveFUSE.git',
     install_requires=install_requires,
-    keywords=['NdriveFUSE','ndrive fuse', 'Ndrive FUSE'],
+    keywords=['NdriveForLinux','ndrive fuse', 'Ndrive FUSE', 'Ndrive client'],
     cmdclass={'install': Installer,
               'clean': Clean}
 )

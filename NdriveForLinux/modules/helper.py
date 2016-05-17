@@ -38,6 +38,8 @@ import re
 import pdb
 import time
 import datetime
+import confgen
+import NDriveFUSE
 
 """
 [Name]
@@ -101,3 +103,7 @@ def checkFileFromDirectoryList(filepath, dirlist):
             return True
     return False
 
+
+class Helper():
+    ConfManager = confgen.ConfGenerator()
+    # Ndrive = NDriveFUSE.NDriveFUSE()

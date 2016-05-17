@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 """
-Copyright 2015 Sukbeom Kim
+Copyright 2015-2016 Sukbeom Kim
 
 This file is part of NdriveFuse (https://github.com/seokbeomKim/NdriveFUSE/)
 
@@ -149,6 +149,17 @@ class ConfGenerator(object):
     def getAccountInfo(self):
         return self.id, self.pw
 
+    def generateFileWithAccntInfo(self, username, password):
+        id = self.EncodeAES(self.cipher, username)
+        pw = self.EncodeAES(self.cipher, password)
+        
+        # Store encrypted information to configuration file
+        configFile = open(self.FILE_PATH, "a+")
+        configFile.write("key = " + self.secret + os.linesep)
+        configFile.write("id = " + id + os.linesep)
+        configFile.write("pw = " + pw + os.linesep)
+        configFile.close()
+    
     """
     generateFile()
     
