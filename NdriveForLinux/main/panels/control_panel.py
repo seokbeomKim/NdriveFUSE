@@ -11,6 +11,8 @@ from custom_button import CustomButton as CustomBtn
 
 BITMAP_SELECTIVE_SYNC = os.path.join(os.path.dirname(__file__),
                                      "../../bitmap/selective_sync.png")
+BITMAP_SELECTIVE_SYNC_HOVER = os.path.join(os.path.dirname(__file__),
+                                     "../../bitmap/selective_sync_hover.png")
 BITMAP_ACCOUNT_SETTING = os.path.join(os.path.dirname(__file__),
                                       "../../bitmap/account_setting.png")
 BITMAP_STATS = os.path.join(os.path.dirname(__file__),
@@ -46,6 +48,10 @@ class ControlPanel(wx.Panel):
             icon_size, icon_size, wx.IMAGE_QUALITY_NEAREST
         )
         syncImg = wx.BitmapFromImage(syncImg)
+        syncImg_hover = wx.Image(BITMAP_SELECTIVE_SYNC_HOVER).Scale(
+            icon_size, icon_size, wx.IMAGE_QUALITY_NEAREST
+        )
+        syncImg_hover = wx.BitmapFromImage(syncImg_hover)
         acSettingImg = wx.Image(BITMAP_ACCOUNT_SETTING).Scale(
             icon_size, icon_size, wx.IMAGE_QUALITY_NEAREST
         )
@@ -83,7 +89,9 @@ class ControlPanel(wx.Panel):
         #                                         style=wx.ALIGN_CENTER)
         # self.donateLabel.SetFont(wx.Font(10, wx.SWISS, wx.NORMAL, wx.NORMAL))
         self.selectiveSyncBtn = CustomBtn(self, wx.ID_ANY, '동기화 설정')
-        self.selectiveSyncBtn.set_bmp((syncImg, 'top'))
+        normal = (syncImg, 'top')
+        focus = (syncImg_hover, 'top')
+        self.selectiveSyncBtn.set_bmp(normal, focus)
         self.selectiveSyncBtn.set_border(None)
         self.selectiveSyncBtn.set_bg_color('#dbdbdb')
         self.selectiveSyncBtn.set_cursor(hand_cursor)
