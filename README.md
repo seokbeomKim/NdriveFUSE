@@ -2,6 +2,7 @@
 FUSE wrapper for Naver NDrive for LINUX
 
 **리눅스용 네이버 N드라이브**
+현재 이슈 해결 및 리비전  작업 중에 있습니다. 현재 공개되어 있는 NDriveFUSE 는 deprecated 될 예정입니다.
 
 ![](https://github.com/seokbeomKim/NdriveFUSE/blob/gh-pages/screenshot_001.png)
 ## Notice
