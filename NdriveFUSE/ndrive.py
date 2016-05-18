@@ -385,6 +385,7 @@ class NDriveFUSE(Operations):
         self.ndrive.delete(old)
         self.dbMgr.removeFileWithPath(old)
         self.dbMgr.registerFile(self.ndrive.getProperty(new))
+        
         return os.rename(self.getFullPath(old), self.getFullPath(new))
 
     def link(self, target, name):

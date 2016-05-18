@@ -121,16 +121,24 @@ class DatabaseManager(object):
     def initialize(self):
         #print "Create new database file..."
         self.cursor.execute(
-            "CREATE TABLE FILE_TABLE(file_href text, creationdate text, getcontentlength text, getlastmodified text, lastaccessed text, resourceno text, resourcetype text)")
+            "CREATE TABLE FILE_TABLE(file_href text UNIQUE, creationdate text, getcontentlength text, getlastmodified text, lastaccessed text, resourceno text, resourcetype text)")
         self.con.commit()
         
     def registerFile(self, target):
         #print "Register file information to database..."
-        self.cursor.execute(
-            "INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype)\
-            VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
-        )
-        self.con.commit()
+        try:
+            self.cursor.execute(
+                "INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype)\
+                VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
+            )
+            self.con.commit()
+        except:
+            self.removeFile(target)
+            self.cursor.execute(
+                "INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype)\
+                VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
+            )
+            self.con.commit()
     def updateFile(self, target):
         #print "Update file information..."
         self.cursor.execute(
@@ -142,7 +150,7 @@ class DatabaseManager(object):
     def removeFile(self, target):
         #print "Remove file information..."
         self.cursor.execute(
-            "DELETE FROM FILE_TABLE WHERE file_href='%s'", (target['href'])
+            "DELETE FROM FILE_TABLE WHERE file_href='"+target['href']+"'"
         )
         self.con.commit()
     
