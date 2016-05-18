@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright 2015 Sukbeom Kim
+Copyright 2015-2016 Sukbeom Kim
 
 This file is part of NdriveFuse (https://github.com/seokbeomKim/NdriveFUSE/)
 
@@ -38,6 +38,9 @@ import re
 import pdb
 import time
 import datetime
+import sqlite3
+import os
+import sys
 
 """
 [Name]
@@ -101,3 +104,73 @@ def checkFileFromDirectoryList(filepath, dirlist):
             return True
     return False
 
+class DatabaseManager(object):
+    def __init__(self):
+        #print "Database manager initialized..."
+        self.db_path = os.path.join(os.getenv('HOME'), '.ndrive.db')
+        self.cursor = None
+        self.con = None
+        
+    def checkDatabaseFile(self):
+        return os.path.isfile(self.db_path)
+        
+    def connect(self):
+        self.con = sqlite3.connect(self.db_path)
+        self.cursor = self.con.cursor()
+    
+    def initialize(self):
+        #print "Create new database file..."
+        self.cursor.execute(
+            "CREATE TABLE FILE_TABLE(file_href text, creationdate text, getcontentlength text, getlastmodified text, lastaccessed text, resourceno text, resourcetype text)")
+        self.con.commit()
+        
+    def registerFile(self, target):
+        #print "Register file information to database..."
+        self.cursor.execute(
+            "INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype)\
+            VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
+        )
+        self.con.commit()
+    def updateFile(self, target):
+        #print "Update file information..."
+        self.cursor.execute(
+            "UPDATE FILE_TABLE SET file_href='%s', creationdate='%s', getcontentlength='%s', getlastmodified='%s', lastaccessed='%s', resourceno='%s', resourcetype='%s' WHERE file_href = '%s'",
+            (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'],target['href'] )
+        )
+        self.con.commit()
+        
+    def removeFile(self, target):
+        #print "Remove file information..."
+        self.cursor.execute(
+            "DELETE FROM FILE_TABLE WHERE file_href='%s'", (target['href'])
+        )
+        self.con.commit()
+    
+    def removeFileWithPath(self, old):
+        #print "Update file information (reason: rename)..."
+        self.cursor.execute(
+            "DELETE FROM FILE_TABLE WHERE file_href='"+old+"'"
+        )
+        self.con.commit()
+    def uploadFile(self, target):
+        #print target
+        #print "Update file information (reason: upload)..."
+        try:
+            self.removeFile(target)
+        except:
+            pass
+        
+        try:
+            self.registerFile(target)
+        except:
+            pass
+    def disconnect(self):
+        self.con.close()
+        
+    def getTimeStamp(self, file_href):
+        self.cursor.execute(
+            "SELECT getlastmodified FROM FILE_TABLE WHERE file_href = '" + file_href + "'")
+        rv = self.cursor.fetchone()
+        return rv[0]
+        
+        

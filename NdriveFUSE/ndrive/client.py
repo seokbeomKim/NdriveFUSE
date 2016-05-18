@@ -304,20 +304,6 @@ class Ndrive(object):
         if s is True:
             self.put(file_obj, full_path, overwrite)
 
-        """
-        file_obj를 검사하여 CloudShare 폴더 밑에 있는 경우 로그파일에 공유링크를 저장한다.
-        """
-        if "CloudShare" in file_obj:
-            logfile = os.getenv("HOME") + "/.cslog"
-            print "logfile = " + logfile
-
-            cmd = "sed '/"+full_path.replace("/", "\/")+"/d' " + logfile + " > "+logfile
-            os.system(cmd)
-            
-            f = open(logfile, 'a+')
-            f.write(file_obj + ": " + self.getFileLink(full_path) + "\n")
-        
-
     def getRecentUpdatedFileList(self):
         """
         Get list of recently updated files
@@ -370,7 +356,24 @@ class Ndrive(object):
             return metadata
         else:
             print "Failed to get list of all files"
+    def getShareFileList(self):
+        data = {
+            'userid': self.user_id,
+            'useridx': self.useridx,
+            'sort': 'shdate',
+            'order': 'desc',
+            'startnum': 0,
+            'pagingrow': 100
+        }
         
+        s, metadata = self.POST('doSearch', data)
+        
+        if s is True:
+            #resultvalue = byte_readable(metadata['resultvalue'])
+            return metadata
+        else:
+            print "Failed to get list of all files"
+    
     def getDiskSpace(self):
         """Get disk space information.
 
@@ -398,7 +401,7 @@ class Ndrive(object):
         if s is True:
             usedspace = byte_readable(metadata['usedspace'])
             totalspace = byte_readable(metadata['totalspace'])
-            print "Capacity: %s / %s" % (usedspace, totalspace)
+            #print "Capacity: %s / %s" % (usedspace, totalspace)
 
             return metadata
         else:
@@ -771,7 +774,17 @@ class Ndrive(object):
         else:
             print "Error createFileLink: %s" % (metadata)
             return False
+        
+    def openDoc(self, path):
+        date = {'ndrivePath': path}
+        
+        s, metadata = self.POST('getProperty', data)
 
+        if s is True:
+            return metadata
+        else:
+            return False
+        
     def getProperty(self, full_path, dummy = 56184):
         """Get a file property
 
@@ -997,3 +1010,6 @@ class Ndrive(object):
         else:
             print "Failed doSearch: search failed"
             return False
+        
+    
+        

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 """
-Copyright 2015 Sukbeom Kim
+Copyright 2015-2016 Sukbeom Kim
 
 This file is part of NdriveFuse (https://github.com/seokbeomKim/NdriveFUSE/)
 

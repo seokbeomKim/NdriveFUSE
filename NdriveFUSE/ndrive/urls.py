@@ -604,3 +604,5 @@ Return:
     })
 """
 ndrive_urls['createFileLink'] = api_url + '/api/files/createFileLink.nhn'
+
+ndrive_urls['openDoc'] = 'http://word.office.naver.com/word/openDoc.cmd'
