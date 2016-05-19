@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 """
 Copyright 2015-2016 Sukbeom Kim
 
@@ -121,44 +122,43 @@ class DatabaseManager(object):
     def initialize(self):
         #print "Create new database file..."
         self.cursor.execute(
-            "CREATE TABLE FILE_TABLE(file_href text UNIQUE, creationdate text, getcontentlength text, getlastmodified text, lastaccessed text, resourceno text, resourcetype text)")
+            u"CREATE TABLE FILE_TABLE(file_href text UNIQUE, creationdate text, getcontentlength text, getlastmodified text, lastaccessed text, resourceno text, resourcetype text)")
         self.con.commit()
         
     def registerFile(self, target):
         #print "Register file information to database..."
         try:
             self.cursor.execute(
-                "INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype)\
-                VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
+                u"INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype) VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
             )
             self.con.commit()
         except:
             self.removeFile(target)
             self.cursor.execute(
-                "INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype)\
-                VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
+                u"INSERT INTO FILE_TABLE(file_href, creationdate, getcontentlength, getlastmodified, lastaccessed, resourceno, resourcetype) VALUES(?, ?, ?, ?, ? ,? ,?)", (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'] )
             )
             self.con.commit()
     def updateFile(self, target):
         #print "Update file information..."
-        self.cursor.execute(
-            "UPDATE FILE_TABLE SET file_href='%s', creationdate='%s', getcontentlength='%s', getlastmodified='%s', lastaccessed='%s', resourceno='%s', resourcetype='%s' WHERE file_href = '%s'",
-            (target['href'], target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'],target['href'] )
-        )
+        query = "UPDATE FILE_TABLE SET creationdate='%s', getcontentlength='%s', getlastmodified='%s', lastaccessed='%s', resourceno='%s', resourcetype='%s' WHERE file_href = '%s'" % (target['creationdate'], target['getcontentlength'], target['getlastmodified'], target['lastaccessed'], target['resourceno'], target['resourcetype'],target['href'])
+        self.cursor.execute(query)
         self.con.commit()
         
     def removeFile(self, target):
         #print "Remove file information..."
-        self.cursor.execute(
-            "DELETE FROM FILE_TABLE WHERE file_href='"+target['href']+"'"
-        )
+        query = u"DELETE FROM FILE_TABLE WHERE file_href='%s'" % target['href']
+        self.cursor.execute(query)
+        self.con.commit()
+        
+    def removeDirectory(self, target):
+        ## TODO
+        self.cursor.execute(query)
         self.con.commit()
     
     def removeFileWithPath(self, old):
         #print "Update file information (reason: rename)..."
-        self.cursor.execute(
-            "DELETE FROM FILE_TABLE WHERE file_href='"+old+"'"
-        )
+        query = u"DELETE FROM FILE_TABLE WHERE file_href='%s'" % old
+        self.cursor.execute(query)
         self.con.commit()
     def uploadFile(self, target):
         #print target
@@ -177,8 +177,9 @@ class DatabaseManager(object):
         
     def getTimeStamp(self, file_href):
         self.cursor.execute(
-            "SELECT getlastmodified FROM FILE_TABLE WHERE file_href = '" + file_href + "'")
+            u"SELECT file_href, getlastmodified FROM FILE_TABLE WHERE file_href = '"+file_href+"'"
+        )
         rv = self.cursor.fetchone()
-        return rv[0]
+        return rv[1]
         
         

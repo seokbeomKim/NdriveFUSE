@@ -75,6 +75,7 @@ import threading
 
 class NDriveFUSE(Operations):
     def __init__(self, root, id, pw, confMgr):
+        #sys.setdefaultencoding('utf-8')
         print "Sync destination directory = " + root
         
         self.confMgr = confMgr
@@ -166,22 +167,26 @@ class NDriveFUSE(Operations):
             # file
             else:
                 try:
-                    # Check whether the file exists
-                    self.dbMgr.getTimeStamp(file['href'])
-                    
                     if os.path.isfile(fpath):
+                        print "File exist. check file's timestamp."
                         if self.compareTimeStamp(file['getlastmodified'],
                                             self.dbMgr.getTimeStamp(file['href'])):
                             self.ndrive.downloadFile(file['href'], fpath)
+                            print "File downloaded"
                             self.dbMgr.updateFile(file)
+                            
                     else:
+                        print "Download file"
                         self.dbMgr.registerFile(file)
                         self.ndrive.downloadFile(file['href'], fpath)
 
-                except:
-                    #print "Exception occured while syncing files..."
+                except Exception, e:
+                    print "Exception occured while syncing files..." , e
                     pass
-        return 
+        return
+    
+    
+    
     ########################################################
     # Fuse functions
     ########################################################
@@ -327,6 +332,7 @@ class NDriveFUSE(Operations):
     def rmdir(self, path):
         full_path = self.getFullPath(path)
         self.ndrive.delete(path + "/")
+        # self.dbMgr.removeDirectory(path)        
         return os.rmdir(full_path)
 
     def mkdir(self, path, mode):
@@ -454,8 +460,9 @@ class NDriveFUSE(Operations):
     def looper(self):
         # Thread to keep session
         try:
-            self.recover = threading.Timer(120.0, self.looper)
+            self.recover = threading.Timer(10, self.looper)
             self.recover.start()
+            self.Sync()
         except (KeyboardInterrupt, SystemExit):
             print "Exit the program."
             sys.exit()
